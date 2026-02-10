@@ -1,0 +1,17 @@
+﻿  Application.cpp
+  Enemy.cpp
+  Game.cpp
+  Player.cpp
+  EnemyAttackState.cpp
+  EnemyChasingState.cpp
+  EnemyWarningState.cpp
+  GameClearScene.cpp
+  GameOverScene.cpp
+  LoadingScene.cpp
+  Stage1Scene.cpp
+  TitleScene.cpp
+  コード生成しています。
+  Previous IPDB and IOBJ mismatch, fall back to full compilation.
+  All 2593 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  コード生成が終了しました。
+  DX22_01_plane.vcxproj -> D:\HAL\就職\1月7日\DX22_01_plane\DX22_01_plane\x64\Release\DX22_01_plane.exe

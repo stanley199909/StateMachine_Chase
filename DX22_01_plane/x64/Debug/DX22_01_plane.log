@@ -1,0 +1,51 @@
+﻿  compilation object save succeeded; see D:\HAL\就職\1月7日\DX22_01_plane\DX22_01_plane\x64\Debug\litTexturePS.cso
+  compilation object save succeeded; see D:\HAL\就職\1月7日\DX22_01_plane\DX22_01_plane\x64\Debug\litTextureVS.cso
+  compilation object save succeeded; see D:\HAL\就職\1月7日\DX22_01_plane\DX22_01_plane\x64\Debug\unlitTexturePS.cso
+  compilation object save succeeded; see D:\HAL\就職\1月7日\DX22_01_plane\DX22_01_plane\x64\Debug\unlitTextureVS.cso
+  Application.cpp
+  AssimpPerse.cpp
+  Camera.cpp
+  Collision.cpp
+  Enemy.cpp
+  Game.cpp
+  Ground.cpp
+  input.cpp
+  main.cpp
+  Object.cpp
+  Player.cpp
+  Renderer.cpp
+D:\HAL\就職\1月7日\DX22_01_plane\DX22_01_plane\DX22_01_plane\Renderer.cpp(600,47): warning C4244: '=': 'SIZE_T' から 'int' への変換です。データが失われる可能性があります。
+  GameClearScene.cpp
+  GameOverScene.cpp
+  LoadingScene.cpp
+  Scene.cpp
+  Stage1Scene.cpp
+  TitleScene.cpp
+  Shader.cpp
+  sound.cpp
+  コードを生成中...
+  コンパイル中...
+  EnemyAttackState.cpp
+  EnemyChasingState.cpp
+  EnemyIdleState.cpp
+  EnemyPatrolState.cpp
+  EnemySearchState.cpp
+  EnemyWarningState.cpp
+  PlayerIdleState.cpp
+  PlayerMoveState.cpp
+  StateBase.cpp
+  StateMachine.cpp
+  StaticMesh.cpp
+  stb_image.cpp
+  TestCube.cpp
+D:\HAL\就職\1月7日\DX22_01_plane\DX22_01_plane\DX22_01_plane\TestCube.cpp(250,18): warning C4267: '引数': 'size_t' から 'UINT' に変換しました。データが失われているかもしれません。
+  TestModel.cpp
+  TestPlane.cpp
+D:\HAL\就職\1月7日\DX22_01_plane\DX22_01_plane\DX22_01_plane\TestPlane.cpp(94,17): warning C4267: '引数': 'size_t' から 'UINT' に変換しました。データが失われているかもしれません。
+  Texture.cpp
+  Texture2D.cpp
+  utility.cpp
+  Wall.cpp
+  Goal.cpp
+  コードを生成中...
+  DX22_01_plane.vcxproj -> D:\HAL\就職\1月7日\DX22_01_plane\DX22_01_plane\x64\Debug\DX22_01_plane.exe

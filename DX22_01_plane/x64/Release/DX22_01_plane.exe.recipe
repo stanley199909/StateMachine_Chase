@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <ProjectOutputs>
+    <ProjectOutput>
+      <FullPath>D:\HAL\就職\1月7日\DX22_01_plane\DX22_01_plane\x64\Release\DX22_01_plane.exe</FullPath>
+    </ProjectOutput>
+  </ProjectOutputs>
+  <ContentFiles>
+    <ContentFile>
+      <FullPath>D:\HAL\就職\1月7日\DX22_01_plane\DX22_01_plane\x64\Release\litTexturePS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>D:\HAL\就職\1月7日\DX22_01_plane\DX22_01_plane\x64\Release\litTextureVS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>D:\HAL\就職\1月7日\DX22_01_plane\DX22_01_plane\x64\Release\unlitTexturePS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>D:\HAL\就職\1月7日\DX22_01_plane\DX22_01_plane\x64\Release\unlitTextureVS.cso</FullPath>
+    </ContentFile>
+  </ContentFiles>
+  <SatelliteDlls />
+  <NonRecipeFileRefs />
+</Project>
