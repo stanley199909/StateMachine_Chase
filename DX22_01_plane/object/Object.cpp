@@ -2,6 +2,7 @@
 #include <iostream>
 using namespace DirectX::SimpleMath;
 
+std::unordered_map<std::string, StaticMesh> Object::s_MeshCache;
 //今のところ記述内容は無し
 void Object::LoadModel(
     const std::u8string& modelPath,
@@ -9,27 +10,37 @@ void Object::LoadModel(
     const Vector3& scale
 )
 {
-    StaticMesh staticmesh;
     std::string modelPathStr(
         reinterpret_cast<const char*>(modelPath.c_str()),
         modelPath.size());
-    // ファイル読み込み
-    staticmesh.Load(modelPathStr, textureDirectory);
 
-    // MeshRenderer 初期化
-    m_MeshRenderer.Init(staticmesh);
+    std::string cacheKey = modelPathStr;
 
-    // シェーダー（必要に応じて引数化も可能）
+    StaticMesh* meshToUse = nullptr;
+
+
+    if (s_MeshCache.find(cacheKey) != s_MeshCache.end())
+    {
+     
+        std::cout << " Cache HIT: " << modelPathStr << std::endl;
+        meshToUse = &s_MeshCache[cacheKey];
+    }
+    else
+    {
+   
+        std::cout << " Loading: " << modelPathStr << std::endl;
+        s_MeshCache[cacheKey].Load(modelPathStr, textureDirectory);
+        meshToUse = &s_MeshCache[cacheKey];
+        std::cout << " Cached: " << modelPathStr << std::endl;
+    }
+
+   
+    m_MeshRenderer.Init(*meshToUse);
     m_Shader.Create("shader/litTextureVS.hlsl", "shader/litTexturePS.hlsl");
+    m_subsets = meshToUse->GetSubsets();
+    m_Textures = meshToUse->GetTextures();
 
-    // サブセット
-    m_subsets = staticmesh.GetSubsets();
-
-    // テクスチャ
-    m_Textures = staticmesh.GetTextures();
-
-    // マテリアル
-    auto mats = staticmesh.GetMaterials();
+    auto mats = meshToUse->GetMaterials();
     for (auto& mat : mats)
     {
         auto m = std::make_unique<Material>();
@@ -37,7 +48,6 @@ void Object::LoadModel(
         m_Materials.push_back(std::move(m));
     }
 
-    // スケール設定
     m_Scale = scale;
 
 
@@ -78,6 +88,12 @@ AABB Object::GetAABB(const Vector3& _localMin, const Vector3& _localMax) const
     }
 
     return { worldMin, worldMax };
+}
+
+void Object::ClearModelCache()
+{
+    std::cout << " Clearing cache (" << s_MeshCache.size() << " models)" << std::endl;
+    s_MeshCache.clear();
 }
 
 void Object::Draw(Camera* cam)

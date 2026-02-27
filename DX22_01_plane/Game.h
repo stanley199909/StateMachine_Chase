@@ -8,7 +8,10 @@
 #include "LoadingScene.h"
 #include "Sound.h"
 
-
+//Imgui
+#include "imgui.h"
+#include "imgui_impl_win32.h"
+#include "imgui_impl_dx11.h"
 
 class Game
 {
@@ -32,6 +35,11 @@ private:
 	static ID3D11Buffer* s_FadeVB;  // static fade VB
 	static ID3D11Buffer* s_FadeIB;  // static fade IB
 	static ID3D11RasterizerState* s_ScissorState;
+
+	//=======================================
+	//  IMGUI
+	//=======================================
+	static bool m_ShowImguiDebug;
 public:
 	Game(); // コンストラクタ
 	~Game(); // デストラクタ

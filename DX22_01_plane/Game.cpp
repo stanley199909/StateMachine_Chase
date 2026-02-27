@@ -1,6 +1,9 @@
 #include "Game.h"
 #include "Renderer.h"
 #include "Input.h"
+#include "Application.h"
+#include "Enemy.h"
+
 
 Game* Game::m_Instance; //ゲームインスタンス
 Sound Game::g_Sound;
@@ -8,11 +11,11 @@ bool Game::s_SoundReady = false;
 ID3D11Buffer* Game::s_FadeVB = nullptr;
 ID3D11Buffer* Game::s_FadeIB = nullptr;
 ID3D11RasterizerState* Game::s_ScissorState = nullptr;
+bool Game::m_ShowImguiDebug = false;
 // コンストラクタ
 Game::Game()
 {
 	m_Scene = nullptr;
-	
 }
 
 // デストラクタ
@@ -27,25 +30,32 @@ void Game::Init()
 {
 	//インスタンス作成
 	m_Instance = new Game;
-
 	// 描画終了処理
 	Renderer::Init();
-
 	// 入力処理初期化
 	Input::Create();
-
 	// カメラ初期化
 	m_Instance->m_Camera.Init();
 	m_Instance->m_Scene = new TitleScene;
 	//=======================================
-	//  サウンドシステム
+	// サウンドシステム
 	//=======================================
 	if (!s_SoundReady) {
 		HRESULT hr = g_Sound.Init();
 		if (SUCCEEDED(hr)) s_SoundReady = true;
 	}
-	
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
 
+	
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+	io.ConfigWindowsMoveFromTitleBarOnly = false;  
+
+	ImGui::StyleColorsDark();
+
+	ImGui_ImplWin32_Init(Application::GetWindow());
+	ImGui_ImplDX11_Init(Renderer::GetDevice(), Renderer::GetDeviceContext());
 }
 
 // 更新
@@ -53,31 +63,34 @@ void Game::Update()
 {
 	//入力処理更新
 	Input::Update();
+	if (Input::GetKeyTrigger(VK_P)) {
+		m_ShowImguiDebug = !m_ShowImguiDebug;
+	}
+	//IMGUI
 
+		ImGui_ImplDX11_NewFrame();
+		ImGui_ImplWin32_NewFrame();
+		ImGui::NewFrame();
+	
 	//シーン更新
 	m_Instance->m_Scene->Update();
-
 	// カメラ更新
 	m_Instance->m_Camera.Update();
-
-	
 	//オブジェクト更新
-		//for (auto& o : m_Instance->m_Objects)
-		//{
-		//	o->Update();
-		//}
+	//for (auto& o : m_Instance->m_Objects)
+	//{
+	// o->Update();
+	//}
 	for (size_t i = 0; i < m_Instance->m_Objects.size(); )
 	{
 		if (m_Instance->m_Objects[i]) {
 			m_Instance->m_Objects[i]->Update();
-			++i;	
+			++i;
 		}
 		else {
-		
 			m_Instance->m_Objects.erase(m_Instance->m_Objects.begin() + i);
 		}
 	}
-
 }
 
 // 描画
@@ -86,16 +99,38 @@ void Game::Draw()
 	// 描画前処理
 	Renderer::DrawStart();
 
-
-	//オブジェクト描画
-	for (auto& o : m_Instance->m_Objects)
-	{
+	for (auto& o : m_Instance->m_Objects) {
 		o->Draw(&m_Instance->m_Camera);
 	}
 
+	if (m_ShowImguiDebug)
+	{
+
+		ImGui::Begin("FSM Debug - Enemy States", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse);
+		ImGui::Text("FPS: %.1f", ImGui::GetIO().Framerate);
+
+		auto enemies = m_Instance->GetObjects<Enemy>();
+		int count = 0;
+		for (auto enemy : enemies) {
+			std::string state = enemy->GetStateMachine()->GetCurrentStateName();
+			float alert = enemy->GetAlertValue();
+			ImGui::Text("Enemy #%d | State: %s | Alert: %.1f%%",
+				count++, state.c_str(), alert);
+		}
+
+		if (count == 0) {
+			ImGui::Text("No enemies found.");
+		}
+		ImGui::End();
+	}
+
+
+		ImGui::Render();
+		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+	
+
 	// 描画後処理
 	Renderer::DrawEnd();
-
 }
 
 // 終了処理
@@ -104,7 +139,6 @@ void Game::Uninit()
 	// カメラ終了処理
 	m_Instance->m_Camera.Uninit();
 	g_Sound.Uninit();
-
 	//オブジェクト終了処理
 	for (auto& o : m_Instance->m_Objects)
 	{
@@ -114,12 +148,15 @@ void Game::Uninit()
 	Input::Release();
 	// 描画終了処理
 	Renderer::Uninit();
-
 	//インスタンス削除
 	delete m_Instance;
 	if (s_FadeVB) s_FadeVB->Release();
 	if (s_FadeIB) s_FadeIB->Release();
 	if (s_ScissorState) s_ScissorState->Release();
+	//IMGUI Uninit
+	ImGui_ImplDX11_Shutdown();
+	ImGui_ImplWin32_Shutdown();
+	ImGui::DestroyContext();
 }
 
 //インスタンスを取得
@@ -131,7 +168,6 @@ Game* Game::GetInstance()
 //シーンを切り替える
 void Game::ChangeScene(SceneName sName)
 {
-	
 	////読み込み済みのシーンがあれば削除
 	//int score = 0;
 	if (m_Instance->m_Scene != nullptr)
@@ -139,15 +175,14 @@ void Game::ChangeScene(SceneName sName)
 		////消そうとしているシーンがStage1ならスコアを保存しておく
 		//if (Stage1Scene* sObj = dynamic_cast<Stage1Scene*>(m_Instance->m_Scene))
 		//{
-		//	score = sObj->GetScore();
+		// score = sObj->GetScore();
 		//}
 		delete m_Instance->m_Scene;
 		m_Instance->m_Scene = nullptr;
 	}
-
 	switch (sName)
 	{
-	case TITLE:	
+	case TITLE:
 		m_Instance->m_Scene = new TitleScene; //メモリを確保
 		break;
 	case LOADINGSTAGE1:
@@ -173,7 +208,6 @@ void Game::DeleteObject(Object* pt)
 	if (pt == NULL)
 		return;
 	pt->Uninit(); //終了処理
-
 	//要素を削除する
 	erase_if(m_Instance->m_Objects, [pt](const std::unique_ptr<Object>& element)
 		{
@@ -219,4 +253,3 @@ void Game::ResumeSound(SOUND_LABEL label)
 {
 	g_Sound.Resume(label);
 }
-

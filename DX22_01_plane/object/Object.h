@@ -27,7 +27,7 @@ protected:
 	DirectX::SimpleMath::Vector3 m_Position = DirectX::SimpleMath::Vector3(0.0f, 0.0f, 0.0f);
 	DirectX::SimpleMath::Vector3 m_Rotation = DirectX::SimpleMath::Vector3(0.0f, 0.0f, 0.0f);
 	DirectX::SimpleMath::Vector3 m_Scale = DirectX::SimpleMath::Vector3(1.0f, 1.0f, 1.0f);
-
+	static std::unordered_map<std::string, StaticMesh> s_MeshCache;
 	// 描画の為の情報（見た目に関わる部分）
 	Shader m_Shader; // シェーダー
 
@@ -65,4 +65,5 @@ public:
 	//当たり判定ボックスを取得
 	//=======================================
 	virtual AABB GetAABB(const Vector3& _localMin, const Vector3& _localMax) const;
+	static void ClearModelCache();
 };

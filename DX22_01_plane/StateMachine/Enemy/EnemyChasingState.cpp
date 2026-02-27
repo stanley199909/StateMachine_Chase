@@ -32,10 +32,7 @@ void EnemyChasingState::OnUpdate(float dt)
     float angle = std::atan2(dir.x, dir.z);
     m_enemy->SetRotation(Vector3(0.0f, angle, 0.0f));
 
-    if (!m_enemy->IsPlayerInSight())
-    {
-        m_enemy->GetStateMachine()->ChangeState("Search");
-    }
+
 }
 
 void EnemyChasingState::OnExit()

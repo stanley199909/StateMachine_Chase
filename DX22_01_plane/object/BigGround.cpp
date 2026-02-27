@@ -1,39 +1,38 @@
-#include "Ground.h"
+#include "BigGround.h"
 #include "stb_image.h"
 #include <iostream>
 using namespace DirectX::SimpleMath;
 
-Ground::Ground()
+BigGround::BigGround()
 {
 	SetType(ObjectType::GROUND);
 }
 
-Ground::~Ground()
+BigGround::~BigGround()
 {
 
 }
-
 //=======================================
 //初期化処理
 //=======================================
-void Ground::Init()
+void BigGround::Init()
 {
 	// 3Dモデルデータ (Mayaで出力した床のFBX)
-	std::u8string modelFile = u8"assets/model/road/RoadSpare.fbx";
+	std::u8string modelFile = u8"assets/model/road/BigRoad.fbx";
 
 	// テクスチャディレクトリ
 	std::string texDirectory = "assets/model/road/textures";
 
 	// モデル読み込み (Objectクラスの機能を使用)
-	
+
 	LoadModel(modelFile, texDirectory, Vector3(1.0f, 1.0f, 1.0f));
-	
+
 	//FBX のテクスチャを自分のテクスチャで置き換える
-	m_Textures.clear();  // FBX から読み込んだテクスチャをクリア
 
 
-	
-	SetPosition(Vector3(0.0f, -10.0f, 0.0f));
+
+
+	SetPosition(Vector3(0.0f, -1000.0f, 0.0f));
 
 
 
@@ -42,7 +41,7 @@ void Ground::Init()
 //=======================================
 //更新処理
 //=======================================
-void Ground::Update()
+void BigGround::Update()
 {
 
 }
@@ -50,7 +49,7 @@ void Ground::Update()
 //=======================================
 //描画処理
 //=======================================
-void Ground::Draw(Camera* cam)
+void BigGround::Draw(Camera* cam)
 {
 	cam->SetCamera();
 
@@ -62,7 +61,7 @@ void Ground::Draw(Camera* cam)
 //=======================================
 //終了処理
 //=======================================
-void Ground::Uninit()
+void BigGround::Uninit()
 {
 
 }
@@ -70,7 +69,7 @@ void Ground::Uninit()
 //=======================================
 //頂点情報を取得
 //=======================================
-std::vector<VERTEX_3D> Ground::GetVertices()
+std::vector<VERTEX_3D> BigGround::GetVertices()
 {
 	std::vector<VERTEX_3D> res;
 	res.resize(m_Vertices.size());

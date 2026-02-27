@@ -53,7 +53,7 @@ void EnemyWarningState::OnUpdate(float dt)
         {
             m_enemy->SetAlertValue(0.0f);
             m_alertTimer = 0.0f;  
-            m_enemy->GetStateMachine()->ChangeState("Search");
+            m_enemy->GetStateMachine()->ChangeState("Patrol");
         }
     }
 }

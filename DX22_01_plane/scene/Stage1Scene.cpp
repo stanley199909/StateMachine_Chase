@@ -266,6 +266,7 @@ void Stage1Scene::Uninit()
 		Game::GetInstance()->DeleteObject(o);
 	}
 	m_MySceneObjects.clear();
+    Object::ClearModelCache();
 
 }
 
