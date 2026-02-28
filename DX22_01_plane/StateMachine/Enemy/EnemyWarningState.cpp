@@ -43,18 +43,22 @@ void EnemyWarningState::OnUpdate(float dt)
                 m_enemy->GetStateMachine()->ChangeState("Chasing");
             }
         }
+         m_exitSightTimer = 0.0f;
     }
     else  
     {
-        Game::StopSound(SOUND_LABEL_SE000);
         float newAlertValue = m_enemy->GetAlertValue() - 25.0f * dt;
         m_enemy->SetAlertValue(newAlertValue);
-
+        m_exitSightTimer += dt;
         if (m_enemy->GetAlertValue() <= 0.0f)
         {
+            Game::StopSound(SOUND_LABEL_SE000);
             m_enemy->SetAlertValue(0.0f);
-            m_alertTimer = 0.0f;  
-            m_enemy->GetStateMachine()->ChangeState("Patrol");
+            if (m_exitSightTimer > 3.0f)
+            {
+                m_alertTimer = 0.0f;
+                m_enemy->GetStateMachine()->ChangeState("Patrol");
+            }
         }
     }
 }

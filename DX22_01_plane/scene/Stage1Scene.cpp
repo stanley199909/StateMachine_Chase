@@ -7,7 +7,6 @@
 #include "BigGround.h"
 #include "House.h"
 #include "Tree.h"
-#include "Texture2D.h"
 #include "Goal.h"
 #include "Enemy.h"
 #include "Skybox.h"
@@ -28,6 +27,7 @@ Stage1Scene::~Stage1Scene()
 void Stage1Scene::Init()
 {
     InitStageData();
+    InitUIData();
 }
 
 //更新
@@ -41,6 +41,7 @@ void Stage1Scene::Update()
 	if ((playerPos - goalPos).Length() < 5.0f)  
 	{
        /* std::cout << "MissionComplete" << std::endl;*/
+        StopAllSE();
         Game::StopSound(SOUND_LABEL_BGM001);
         Game::PlaySound(SOUND_LABEL_SE002);
 		Game::GetInstance()->ChangeScene(GAMECLEAR);
@@ -51,11 +52,13 @@ void Stage1Scene::Update()
     if (std::abs(playerPos.x) > MAP_BOUNDARY_X || 
         std::abs(playerPos.z) > MAP_BOUNDARY_Z)
     {
+        StopAllSE();
         Game::StopSound(SOUND_LABEL_BGM001);
         Game::PlaySound(SOUND_LABEL_SE003);
         Game::GetInstance()->ChangeScene(GAMEOVER);
         return;
     }
+    GameLoopUIUpdate();
 }
 
 void Stage1Scene::InitStageData()
@@ -70,7 +73,7 @@ void Stage1Scene::InitStageData()
         m_MySceneObjects.emplace_back(Game::GetInstance()->AddObject<BigGround>()); //3
         m_MySceneObjects.emplace_back(Game::GetInstance()->AddObject<House>()); //4
         m_MySceneObjects.emplace_back(Game::GetInstance()->AddObject<Tree>()); //5
-        m_MySceneObjects.emplace_back(Game::GetInstance()->AddObject<Skybox>()); //6
+        //m_MySceneObjects.emplace_back(Game::GetInstance()->AddObject<Skybox>()); //6
         
         //m_MySceneObjects.emplace_back(Game::GetInstance()->AddObject<Enemy>());  //3
         //auto AddWall = [&](float x, float y, float z)
@@ -273,6 +276,64 @@ void Stage1Scene::InitStageData()
 
 }
 
+void Stage1Scene::InitUIData()
+{
+    // =======================================
+    //  ゲームUI相関(タイマー、操作など)
+    // =======================================
+
+    // =======================================
+    //  背景
+    // =======================================
+    Texture2D* m_UIBackground = Game::GetInstance()->AddObject<Texture2D>();
+    m_UIBackground->SetTexture("assets/texture/UI/Stage1Scene/UIBackground.png");
+    m_UIBackground->SetPosition(-465.0f, 265.0f, 0.0f);
+    m_UIBackground->SetScale(300.0f, 150.0f, 1.0f);
+    m_MySceneObjects.emplace_back(m_UIBackground);
+
+    // =======================================
+    //  タイマー
+    // =======================================
+    Texture2D* m_TimerGraph = Game::GetInstance()->AddObject<Texture2D>();
+    m_TimerGraph->SetTexture("assets/texture/UI/Stage1Scene/TimerUIGraph.png");
+    m_TimerGraph->SetPosition(-350.0f, 300.0f, 0.0f);
+    m_TimerGraph->SetScale(50.0f, 50.0f, 1.0f);
+    m_MySceneObjects.emplace_back(m_TimerGraph);
+    
+    Texture2D* m_TimerBackground = Game::GetInstance()->AddObject<Texture2D>();
+    m_TimerBackground->SetTexture("assets/texture/UI/Stage1Scene/UIbar.png");  
+    m_TimerBackground->SetPosition(-500.0f, 300.0f, 0.0f);  
+    m_TimerBackground->SetScale(200.0f, 20.0f, 1.0f);
+    m_MySceneObjects.emplace_back(m_TimerBackground);
+
+    m_TimerFill = Game::GetInstance()->AddObject<Texture2D>();
+    m_TimerFill->SetTexture("assets/texture/UI/Stage1Scene/UIbarFill.png"); 
+    m_TimerFill->SetPosition(-500.0f, 300.0f, 0.0f);
+    m_TimerFill->SetScale(160.0f, 5.0f, 1.0f);  
+    m_MySceneObjects.emplace_back(m_TimerFill);
+
+    // =======================================
+    //  警戒値
+     // =======================================
+    Texture2D* m_policeAlarmGraph = Game::GetInstance()->AddObject<Texture2D>();
+    m_policeAlarmGraph->SetTexture("assets/texture/UI/Stage1Scene/policeAlarmGrph.png");
+    m_policeAlarmGraph->SetPosition(-350.0f, 240.0f, 0.0f);
+    m_policeAlarmGraph->SetScale(50.0f, 50.0f, 1.0f);
+    m_MySceneObjects.emplace_back(m_policeAlarmGraph);
+
+    Texture2D* m_HighestAlertBackground = Game::GetInstance()->AddObject<Texture2D>();
+    m_HighestAlertBackground->SetTexture("assets/texture/UI/Stage1Scene/UIbar.png");
+    m_HighestAlertBackground->SetPosition(-500.0f, 240.0f, 0.0f);
+    m_HighestAlertBackground->SetScale(200.0f, 20.0f, 1.0f);
+    m_MySceneObjects.emplace_back(m_HighestAlertBackground);
+
+    m_HighestAlertFill = Game::GetInstance()->AddObject<Texture2D>();
+    m_HighestAlertFill->SetTexture("assets/texture/UI/Stage1Scene/UIbarFill.png"); 
+    m_HighestAlertFill->SetPosition(-500.0f, 240.0f, 0.0f);
+    m_HighestAlertFill->SetScale(160.0f, 5.0f, 1.0f);
+    m_MySceneObjects.emplace_back(m_HighestAlertFill);
+}
+
 // 終了処理
 void Stage1Scene::Uninit()
 {
@@ -280,7 +341,6 @@ void Stage1Scene::Uninit()
 	for (auto& o : m_MySceneObjects) {
 		Game::GetInstance()->DeleteObject(o);
 	}
-	m_MySceneObjects.clear();
     Object::ClearModelCache();
 
 }
@@ -289,6 +349,55 @@ void Stage1Scene::Uninit()
 int Stage1Scene::GetScore() const
 {
 	return 0;
+
+}
+
+void Stage1Scene::GameLoopUIUpdate()
+{
+    m_TimerProgress += m_TimerSpeed;
+    if (m_TimerProgress > 1.0f)
+        m_TimerProgress = 1.0f;
+
+   
+    float timerFillWidth = 160.0f * m_TimerProgress;
+    m_TimerFill->SetScale(timerFillWidth, 5.0f, 1.0f);
+
+    
+    float alertMultiplier = 1.0f;
+    if (m_TimerProgress > 0.3f) alertMultiplier = 1.5f;
+    if (m_TimerProgress > 0.6f) alertMultiplier = 2.5f;
+    if (m_TimerProgress > 0.9f) alertMultiplier = 4.0f;
+
+    m_HighestAlertValue = 0.0f;
+    for (auto obj : m_MySceneObjects)
+    {
+        if (Enemy* e = dynamic_cast<Enemy*>(obj))
+        {
+            float alert = e->GetAlertValue();
+            if (alert > m_HighestAlertValue)
+            {
+                m_HighestAlertValue = alert;
+            }
+
+        }
+    }
+
+    
+    float alertFillWidth = 160.0f * (m_HighestAlertValue / 100.0f);
+    m_HighestAlertFill->SetScale(alertFillWidth, 5.0f, 1.0f);  
+
+ 
+    if (m_TimerProgress >= 1.0f && !m_TimerFullTriggered)
+    {
+        m_TimerFullTriggered = true;
+        for (auto obj : m_MySceneObjects)
+        {
+            if (Enemy* e = dynamic_cast<Enemy*>(obj))
+            {
+                e->GetStateMachine()->ChangeState("Chasing");
+            }
+        }
+    }
 }
 
 void Stage1Scene::StopAllSE()

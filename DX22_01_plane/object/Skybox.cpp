@@ -1,24 +1,24 @@
-#include "BigGround.h"
+#include "Skybox.h"
 #include "stb_image.h"
 #include <iostream>
 using namespace DirectX::SimpleMath;
-
-BigGround::BigGround()
+Skybox::Skybox()
 {
-	SetType(ObjectType::GROUND);
+	SetType(ObjectType::ENVIRONMENT);
 }
 
-BigGround::~BigGround()
+Skybox::~Skybox()
 {
 
 }
 //=======================================
 //初期化処理
 //=======================================
-void BigGround::Init()
+
+void Skybox::Init()
 {
 	// 3Dモデルデータ (Mayaで出力した床のFBX)
-	std::u8string modelFile = u8"assets/model/road/BigRoad4.fbx";
+	std::u8string modelFile = u8"assets/model/skybox/skybox.fbx";
 
 	// テクスチャディレクトリ
 	std::string texDirectory = "assets/texture";
@@ -32,16 +32,14 @@ void BigGround::Init()
 
 
 
-	SetPosition(Vector3(0.0f, -1000.0f, 0.0f));
-
-
+	SetPosition(Vector3(0.0f, 0.0f, 0.0f));
 
 }
 
 //=======================================
 //更新処理
 //=======================================
-void BigGround::Update()
+void Skybox::Update()
 {
 
 }
@@ -49,8 +47,9 @@ void BigGround::Update()
 //=======================================
 //描画処理
 //=======================================
-void BigGround::Draw(Camera* cam)
+void Skybox::Draw(Camera* cam)
 {
+
 	cam->SetCamera();
 
 	m_Texture.SetGPU();
@@ -58,18 +57,14 @@ void BigGround::Draw(Camera* cam)
 	Object::Draw(cam);
 }
 
-//=======================================
-//終了処理
-//=======================================
-void BigGround::Uninit()
+void Skybox::Uninit()
 {
-
 }
 
 //=======================================
 //頂点情報を取得
 //=======================================
-std::vector<VERTEX_3D> BigGround::GetVertices()
+std::vector<VERTEX_3D> Skybox::GetVertices()
 {
 	std::vector<VERTEX_3D> res;
 	res.resize(m_Vertices.size());

@@ -107,6 +107,7 @@ void Game::Draw()
 	{
 
 		ImGui::Begin("FSM Debug - Enemy States", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse);
+		ImGui::SetWindowPos(ImVec2(800, 100));
 		ImGui::Text("FPS: %.1f", ImGui::GetIO().Framerate);
 
 		auto enemies = m_Instance->GetObjects<Enemy>();

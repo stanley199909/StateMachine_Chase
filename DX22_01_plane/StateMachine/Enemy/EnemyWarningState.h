@@ -6,6 +6,7 @@ private:
     Enemy* m_enemy;
     
     float m_alertTimer = 0.0f;  // タイムカウンター
+    float m_exitSightTimer = 0.0f; //プレイヤーが視点から離れたら、Stateに切り替えるのクールダウン
     //索敵難易度調整
     const float ALERT_INTERVAL = 0.25f;  // タイムカウンター
     const float MAX_DETECTION_DIST = 50.0f; //最大索敵範囲の長さ(Enemy.cpp(Draw))
