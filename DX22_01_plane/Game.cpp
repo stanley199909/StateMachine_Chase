@@ -253,3 +253,8 @@ void Game::ResumeSound(SOUND_LABEL label)
 {
 	g_Sound.Resume(label);
 }
+
+Camera Game::GetCamera()
+{
+	return Game::GetInstance()->m_Camera;
+}

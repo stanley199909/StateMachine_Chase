@@ -19,10 +19,10 @@ Ground::~Ground()
 void Ground::Init()
 {
 	// 3Dモデルデータ (Mayaで出力した床のFBX)
-	std::u8string modelFile = u8"assets/model/road/RoadSpare.fbx";
+	std::u8string modelFile = u8"assets/model/road/RoadSpare3.fbx";
 
 	// テクスチャディレクトリ
-	std::string texDirectory = "assets/model/road/textures";
+	std::string texDirectory = "assets/texture";
 
 	// モデル読み込み (Objectクラスの機能を使用)
 	

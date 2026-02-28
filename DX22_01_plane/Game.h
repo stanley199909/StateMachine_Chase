@@ -85,5 +85,5 @@ public:
 	static void StopSound(SOUND_LABEL label);
 	static void ResumeSound(SOUND_LABEL label);
 
-
+	static Camera GetCamera();
 };

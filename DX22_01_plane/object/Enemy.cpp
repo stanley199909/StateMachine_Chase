@@ -112,18 +112,22 @@ void Enemy::HandleEnemyStateMachine(const float& _dt)
 bool Enemy::IsPlayerInSight(float fovDegrees) const
 {
 
-	if (!m_player) return false; // プレイヤーが検索範囲外ならfalse処理
+	if (!m_player) return false;
+
 	Vector3 toPlayer = m_player->GetPosition() - GetPosition();
 	float dist = toPlayer.Length();
-	if (dist > 45.0f) return false;  
+
+	if (dist > 45.0f) return false;  // ← 50 → 45 に変更（三角形と一致）
 
 	toPlayer.Normalize();
 	Vector3 forward = GetForward();
 	forward.Normalize();
+
 	float dot = toPlayer.Dot(forward);
 	float halfAngle = fovDegrees / 2.0f;
 	float rad = halfAngle * PI / 180.0f;
 	float threshold = std::cos(rad);
+
 	return dot > threshold;
 }
 

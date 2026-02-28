@@ -3,8 +3,8 @@
 #include "Application.h"
 #include "Game.h"
 
-const auto ClassName = TEXT("2025 framework ひな型");     //ウィンドウクラス名
-const auto WindowName = TEXT("2025 framework ひな型");    //ウィンドウ名
+const auto ClassName = TEXT("Chase");     //ウィンドウクラス名
+const auto WindowName = TEXT("Chase");    //ウィンドウ名
 
 HINSTANCE  Application::m_hInst;   // インスタンスハンドル
 HWND       Application::m_hWnd;    // ウィンドウハンドル

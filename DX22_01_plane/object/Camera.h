@@ -14,6 +14,7 @@ private:
 	DirectX::SimpleMath::Vector3	m_Target{};
 	DirectX::SimpleMath::Matrix		m_ViewMatrix{};
 	float m_CameraDirection = 0; //カメラの方向
+	float m_CameraDirectionY = 0;
 
 public:
 	void Init();
@@ -21,4 +22,6 @@ public:
 	void SetCamera(int mode = 0);
 	void Uninit();
 	void SetTarget(DirectX::SimpleMath::Vector3 target); //カメラターゲット設定
+
+	DirectX::SimpleMath::Vector3 GetPosition();
 };

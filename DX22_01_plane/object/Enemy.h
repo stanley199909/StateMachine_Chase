@@ -33,6 +33,8 @@ private:
     //=======================================
     ID3D11Buffer* m_SightVB = nullptr;  //Vertex Buffer
     ID3D11Buffer* m_SightIB = nullptr;  //Index Buffer
+    const float SIGHT_RANGE = 45.0f;  // IsPlayerInSight ‚Ì dist > 45.0f ‚Æˆê’v
+    const float SIGHT_FOV = 50.0f;    // IsPlayerInSight ‚Ì fovDegrees ‚Æˆê’v
     bool m_ShowSight = true;
     //=======================================
     //  õ“G„¸

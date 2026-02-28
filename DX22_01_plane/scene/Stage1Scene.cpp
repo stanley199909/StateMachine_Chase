@@ -1,5 +1,6 @@
 #include "Stage1Scene.h"
 #include "Game.h"
+#include "Camera.h"
 #include "Input.h"
 #include "Player.h"
 #include "Ground.h"
@@ -9,6 +10,7 @@
 #include "Texture2D.h"
 #include "Goal.h"
 #include "Enemy.h"
+#include "Skybox.h"
 
 // コンストラクタ
 Stage1Scene::Stage1Scene()
@@ -68,6 +70,7 @@ void Stage1Scene::InitStageData()
         m_MySceneObjects.emplace_back(Game::GetInstance()->AddObject<BigGround>()); //3
         m_MySceneObjects.emplace_back(Game::GetInstance()->AddObject<House>()); //4
         m_MySceneObjects.emplace_back(Game::GetInstance()->AddObject<Tree>()); //5
+        m_MySceneObjects.emplace_back(Game::GetInstance()->AddObject<Skybox>()); //6
         
         //m_MySceneObjects.emplace_back(Game::GetInstance()->AddObject<Enemy>());  //3
         //auto AddWall = [&](float x, float y, float z)
@@ -102,8 +105,8 @@ void Stage1Scene::InitStageData()
         // =======================================
         Ground* ground = dynamic_cast<Ground*>(m_MySceneObjects[1]);
         if (ground) {
-            ground->SetPosition(Vector3(0.0f, -10.0f, 0.0f));
-            ground->SetScale(Vector3(0.2f, 0.5f, 0.5f)); //100*250
+            ground->SetPosition(Vector3(0.0f, -5.0f, 0.0f));
+            ground->SetScale(Vector3(1.0f, 1.0f, 1.0f)); //100*250
         }
         // =======================================
         // マップレイアウト（100x250 マップ）
@@ -228,7 +231,7 @@ void Stage1Scene::InitStageData()
         // =======================================
         BigGround* bigGround = dynamic_cast<BigGround*>(m_MySceneObjects[3]);
         if (bigGround) {
-            bigGround->SetPosition(Vector3(0.0f, -100.0f, 0.0f));
+            bigGround->SetPosition(Vector3(0.0f, -10.0f, 0.0f));
             bigGround->SetScale(Vector3(1.0f, 1.0f, 1.0f));
         }
     
@@ -237,7 +240,7 @@ void Stage1Scene::InitStageData()
         // =======================================
         House* house = dynamic_cast<House*>(m_MySceneObjects[4]);
         if (house) {
-            house->SetPosition(Vector3(-200.0f, -80.0f, 0.0f));
+            house->SetPosition(Vector3(-200.0f, -10.0f, 0.0f));
             house->SetScale(Vector3(1.0f, 1.0f, 1.0f));
 
         // =======================================
@@ -246,7 +249,7 @@ void Stage1Scene::InitStageData()
         auto AddTree = [&](float x, float z)
             {
                 Tree* tree = Game::GetInstance()->AddObject<Tree>();
-                tree->SetPosition(Vector3(x, -80.0f, z));
+                tree->SetPosition(Vector3(x, -10.0f, z));
                 tree->SetScale(Vector3(1.0f, 1.0f, 1.0f));
             
                 m_MySceneObjects.emplace_back(tree);
@@ -256,6 +259,18 @@ void Stage1Scene::InitStageData()
         AddTree(150.0f, -100.0f); //その上
 
         }
+        // =======================================
+         // Skybox（スカイボックス）
+        // =======================================
+        //Skybox* skybox = dynamic_cast<Skybox*>(m_MySceneObjects[6]);
+        //if (skybox)
+        //{
+        //    Vector3 camPos = Game::GetInstance()->GetCamera().GetPosition();
+        //    skybox->SetPosition(camPos);  
+        //    skybox->SetScale(Vector3(50.0f,50.0f, 50.0f));  
+
+        //}
+
 }
 
 // 終了処理

@@ -13,6 +13,7 @@ void Camera::Init()
 	m_Position = Vector3(0.0f, 20.0f, 50.0f);
 	m_Target = Vector3(0.0f, 0.0f, 0.0f);
 	m_CameraDirection = 3.14f;
+	m_CameraDirectionY = 3.14f;
 }
 
 
@@ -21,19 +22,28 @@ void Camera::Init()
 //=======================================
 void Camera::Update()
 {
-	////左右キーでカメラ回転
-	//if (Input::GetKeyPress(VK_LEFT))
-	//{
-	//	m_CameraDirection += 0.02f;
-	//}
-	//if (Input::GetKeyPress(VK_RIGHT))
-	//{
-	//	m_CameraDirection -= 0.02f;
-	//}
+	//左右キーでカメラ回転
+	if (Input::GetKeyPress(VK_LEFT))
+	{
+		m_CameraDirection += 0.02f;
+	}
+	if (Input::GetKeyPress(VK_RIGHT))
+	{
+		m_CameraDirection -= 0.02f;
+	}
+	if (Input::GetKeyPress(VK_UP))
+	{
+		m_CameraDirectionY += 0.02f;
+	}
+	if (Input::GetKeyPress(VK_DOWN))
+	{
+		m_CameraDirectionY -= 0.02f;
+	}
 	//カメラの位置を更新する
 	Vector3 pos = m_Target;
 	pos.x += sin(m_CameraDirection) * 50;
-	pos.y += 100;
+	pos.y += /*sin(m_CameraDirectionY) * 50; */
+		100;
 	pos.z += cos(m_CameraDirection) * 50;
 	m_Position = pos;
 }
@@ -101,4 +111,9 @@ void Camera::SetTarget(Vector3 target)
 {
 	//カメラの注視点を更新
 	m_Target = target;
+}
+
+DirectX::SimpleMath::Vector3 Camera::GetPosition()
+{
+	return m_Position;
 }

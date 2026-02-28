@@ -46,6 +46,7 @@ void EnemyWarningState::OnUpdate(float dt)
     }
     else  
     {
+        Game::StopSound(SOUND_LABEL_SE000);
         float newAlertValue = m_enemy->GetAlertValue() - 25.0f * dt;
         m_enemy->SetAlertValue(newAlertValue);
 
