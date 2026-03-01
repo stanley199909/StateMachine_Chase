@@ -31,7 +31,12 @@ private:
     StateMachine m_stateMachine;
     std::vector<StateBase*> m_states;
 
+    //Dash
+    float m_DashCooldown = 0.0f;  
+    const float DASH_COOLDOWN_TIME = 4.5f;  
 
+    //bool
+    bool m_isDashing = false;
 
 public:
     Player();
@@ -58,5 +63,12 @@ public:
     //StateMachine
     void HandlePlayerStateMachine(const float& _dt);
 
+    //=======================================
+    //  Dash
+    //=======================================
+    Vector3 GetFoward();
+    //Dashしてるかとうか
+    bool isDashing();
+    void ChangeDashState();
 
 };

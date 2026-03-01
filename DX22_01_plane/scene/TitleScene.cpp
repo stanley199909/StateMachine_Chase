@@ -2,7 +2,7 @@
 #include "TitleScene.h"
 #include "Game.h"
 #include "Input.h"
-#include "Texture2D.h"
+
 
 
 
@@ -37,19 +37,42 @@ void TitleScene::Init()
 	pt2->SetScale(500.0f, 240.0f, 0.0f); //大きさを指定
 	m_MySceneObjects.emplace_back(pt2);
 
-	Game::PlaySound(SOUND_LABEL_BGM000);
+	m_GameStartButton = Game::GetInstance()->AddObject<Texture2D>();
+	m_GameStartButton->SetTexture("assets/texture/UI/Title/GameStartButton.png");  
+	m_GameStartButton->SetPosition(0.0f, -0.0f, 0.0f);  
+	m_GameStartButton->SetScale(1280.0f, 720.0f, 1.0f);
+
+	m_MySceneObjects.emplace_back(m_GameStartButton);
+	Game::PlaySound(SOUND_LABEL_BGMTitleScene);
 
 }
 
 // 更新
 void TitleScene::Update()
 {
-	// エンターキーを押してステージ1へ
-	if (Input::GetKeyTrigger(VK_RETURN))
-	{
-		Game::StopSound(SOUND_LABEL_BGM000);
-		Game::GetInstance()->ChangeScene(LOADINGSTAGE1);
-	}
+
+		
+		if (!m_ButtonPressed)
+		{
+			m_ButtonUnpressTimer += Animation::frameTime;  
+			if (Input::GetKeyTrigger(VK_RETURN))
+			{
+				m_ButtonPressed = true;
+				m_ButtonPressedTimer = 0.0f;
+				Game::PlaySound(SOUND_LABEL_SEDash);  
+			}
+		}
+		else
+		{
+			m_ButtonPressedTimer += Animation::frameTime;
+			if (m_ButtonPressedTimer >= 1.5f)  
+			{
+				Game::StopSound(SOUND_LABEL_BGMTitleScene);
+				Game::GetInstance()->ChangeScene(LOADINGSTAGE1);
+				return;
+			}
+		}
+
 }
 
 // 終了処理

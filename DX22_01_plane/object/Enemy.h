@@ -44,6 +44,7 @@ private:
     //  ƒvƒŒƒCƒ„[
     //=======================================
     Player* m_player = nullptr;
+
 public:
     Enemy();
     ~Enemy();

@@ -5,13 +5,18 @@
 // サウンドファイル
 typedef enum
 {
-	SOUND_LABEL_BGM000,		// BGM
-	SOUND_LABEL_BGM001,		// BGM
-	SOUND_LABEL_BGM002,		// BGM
-	SOUND_LABEL_SE000,		// SE1
-	SOUND_LABEL_SE001,		// SE2
-	SOUND_LABEL_SE002,		// SE3
-	SOUND_LABEL_SE003,		// SE4
+	//BGM
+	SOUND_LABEL_BGMTitleScene,		// BGM
+	SOUND_LABEL_BGMStage1,		// BGM
+	SOUND_LABEL_BGMStage2,		// BGM
+
+	//SE
+	SOUND_LABEL_SEWarning,		// SE1
+	SOUND_LABEL_SEAlarm,		// SE2
+	SOUND_LABEL_SEVictory,		// SE3
+	SOUND_LABEL_SEDefeat,		// SE4
+	SOUND_LABEL_SEDash,			// SE5
+	SOUND_LABEL_SECrashed,		// SE6
 
 	SOUND_LABEL_MAX,
 } SOUND_LABEL;
@@ -27,13 +32,18 @@ private:
 
 	PARAM m_param[SOUND_LABEL_MAX] =
 	{
+		//BGM
 		{"assets/BGM/TitleSceneBGM.wav", true},			// ゲームメインBGM（ループさせるのでtrue設定）
 		{"assets/BGM/Stage1BGM.wav", true},			// ゲームメインBGM（ループさせるのでtrue設定）
 		{"assets/BGM/Stage2BGM.wav", true},			// ゲームメインBGM（ループさせるのでtrue設定）
+
+		//SE
 		{"assets/SE/warning.wav", false },
 		{"assets/SE/alarm.wav", true},
 		{"assets/SE/victory.wav", false},
 		{"assets/SE/defeat.wav", false},
+		{"assets/SE/dash.wav", false},
+		{"assets/SE/crashed.wav", false},
 
 
 	};

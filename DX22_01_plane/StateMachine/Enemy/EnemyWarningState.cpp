@@ -4,7 +4,7 @@ void EnemyWarningState::OnEntry()
 {
 	std::cout << "Enemy Enter Warning State" << std::endl;
     m_alertTimer = 0.0f;
-    Game::PlaySound(SOUND_LABEL_SE000);
+    Game::PlaySound(SOUND_LABEL_SEWarning);
 }
 
 void EnemyWarningState::OnUpdate(float dt)
@@ -52,7 +52,7 @@ void EnemyWarningState::OnUpdate(float dt)
         m_exitSightTimer += dt;
         if (m_enemy->GetAlertValue() <= 0.0f)
         {
-            Game::StopSound(SOUND_LABEL_SE000);
+            Game::StopSound(SOUND_LABEL_SEWarning);
             m_enemy->SetAlertValue(0.0f);
             if (m_exitSightTimer > 3.0f)
             {
@@ -65,6 +65,6 @@ void EnemyWarningState::OnUpdate(float dt)
 
 void EnemyWarningState::OnExit()
 {
-    Game::StopSound(SOUND_LABEL_SE000);
+    Game::StopSound(SOUND_LABEL_SEWarning);
     m_alertTimer = 0.0f;
 }

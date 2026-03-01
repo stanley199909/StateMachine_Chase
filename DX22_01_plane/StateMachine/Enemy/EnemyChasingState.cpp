@@ -5,7 +5,7 @@ void EnemyChasingState::OnEntry()
 {
     std::cout << "Enemy Enter Chasing State" << std::endl;
 	m_player = m_enemy->GetPlayer();
-    Game::PlaySound(SOUND_LABEL_SE001);
+    Game::PlaySound(SOUND_LABEL_SEAlarm);
 }
 
 void EnemyChasingState::OnUpdate(float dt)
@@ -20,7 +20,11 @@ void EnemyChasingState::OnUpdate(float dt)
    
     if (dist < 2.0f)  
     {
-        m_enemy->GetStateMachine()->ChangeState("Attack");
+        if (m_player->GetStateMachine()->GetCurrentStateName() != "Dash")
+        {
+            m_enemy->GetStateMachine()->ChangeState("Attack");
+        }
+
         return;
     }
 
@@ -37,5 +41,5 @@ void EnemyChasingState::OnUpdate(float dt)
 
 void EnemyChasingState::OnExit()
 {
-    Game::StopSound(SOUND_LABEL_SE001);
+    Game::StopSound(SOUND_LABEL_SEAlarm);
 }

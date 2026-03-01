@@ -46,7 +46,7 @@ void GameClearScene::Update()
 	// エンターキーを押してタイトルへ
 	if (Input::GetKeyTrigger(VK_RETURN))
 	{
-		Game::StopSound(SOUND_LABEL_SE002);
+		Game::StopSound(SOUND_LABEL_SEVictory);
 		Game::GetInstance()->ChangeScene(TITLE);
 	}
 }

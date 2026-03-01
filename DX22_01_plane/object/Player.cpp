@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "Player/PlayerIdleState.h"
 #include "Player/PlayerMoveState.h"
+#include "Player/PlayerDashState.h"
 
 //=======================================
 // 初期化処理
@@ -35,6 +36,7 @@ void Player::Init()
 
 	m_states.push_back(new PlayerIdleState(this));
 	m_states.push_back(new PlayerMoveState(this));
+	m_states.push_back(new PlayerDashState(this));
 	//////////////////////////////
 	// ステートマシン情報入力
 	//////////////////////////////
@@ -107,4 +109,31 @@ void Player::HandlePlayerStateMachine(const float& _dt)
 {
 	this->m_stateMachine.Update(_dt);
 
+}
+
+Vector3 Player::GetFoward()
+{
+	float yaw = m_Rotation.y;
+	Vector3 forward(sin(yaw), 0.0f, cos(yaw));
+
+	
+	float length = forward.Length(); 
+	if (length > 0.0f)  
+	{
+		forward.x /= length;
+		forward.y /= length;
+		forward.z /= length;
+	}
+
+	return forward;
+}
+
+bool Player::isDashing()
+{
+	return m_isDashing;
+}
+
+void Player::ChangeDashState()
+{
+	!m_isDashing;
 }

@@ -12,6 +12,9 @@ void PlayerMoveState::OnUpdate(float dt)
 {
     Vector3 pos = m_player->GetPosition();
     Vector3 moveDirection(0.0f, 0.0f, 0.0f);
+    
+    if(Input::GetKeyTrigger(VK_SPACE))
+        m_player->GetStateMachine()->ChangeState("Dash");
     // ˆÚ“®
     if (Input::GetKeyPress(VK_A)) moveDirection.x -= m_player->GetSpeed()* dt;
     if (Input::GetKeyPress(VK_D)) moveDirection.x += m_player->GetSpeed() * dt;

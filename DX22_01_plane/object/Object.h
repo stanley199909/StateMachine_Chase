@@ -41,6 +41,11 @@ protected:
 	std::vector<std::unique_ptr<Material>> m_Materials;
 	std::vector<SUBSET> m_subsets;
 	std::vector<std::unique_ptr<Texture>> m_Textures; // テクスチャ
+
+	//=======================================
+	//  このオブジェクトを削除
+	//=======================================
+	bool m_MarkedForDelete;
 public:
 	virtual ~Object() {} //仮想デスクラクタ
 	virtual void Init()=0;
@@ -50,9 +55,13 @@ public:
 
 	// 位置の取得
 	DirectX::SimpleMath::Vector3 GetPosition() const { return m_Position; }
+	DirectX::SimpleMath::Vector3 GetRotation() const { return m_Rotation; }
 	void SetPosition(const DirectX::SimpleMath::Vector3& pos) { m_Position = pos; }
 	void SetRotation(const DirectX::SimpleMath::Vector3& rot) { m_Rotation = rot; }
 	void SetScale(const DirectX::SimpleMath::Vector3& scale) { m_Scale = scale; }
+
+	bool GetMarkedForDelete() { return m_MarkedForDelete; }
+	void SetMarkedForDelete(bool markedfordelete) { m_MarkedForDelete = markedfordelete; }
 
 	//オブジェクト
 	ObjectType GetType() const { return m_Type; }

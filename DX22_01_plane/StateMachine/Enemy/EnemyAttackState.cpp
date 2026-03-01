@@ -10,8 +10,8 @@ void EnemyAttackState::OnUpdate(float dt)
 {
 	std::cout << "Game Over! Enemy attacked player." << std::endl;
 	//change to result scene;
-	Game::StopSound(SOUND_LABEL_BGM001);
-	Game::PlaySound(SOUND_LABEL_SE003);
+	Game::StopSound(SOUND_LABEL_BGMStage1);
+	Game::PlaySound(SOUND_LABEL_SEDefeat);
 	Game::GetInstance()->ChangeScene(GAMEOVER);
 	
 }

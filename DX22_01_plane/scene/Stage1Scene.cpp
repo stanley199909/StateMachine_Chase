@@ -42,8 +42,8 @@ void Stage1Scene::Update()
 	{
        /* std::cout << "MissionComplete" << std::endl;*/
         StopAllSE();
-        Game::StopSound(SOUND_LABEL_BGM001);
-        Game::PlaySound(SOUND_LABEL_SE002);
+        Game::StopSound(SOUND_LABEL_BGMStage1);
+        Game::PlaySound(SOUND_LABEL_SEVictory);
 		Game::GetInstance()->ChangeScene(GAMECLEAR);
         return;
 	}
@@ -53,17 +53,30 @@ void Stage1Scene::Update()
         std::abs(playerPos.z) > MAP_BOUNDARY_Z)
     {
         StopAllSE();
-        Game::StopSound(SOUND_LABEL_BGM001);
-        Game::PlaySound(SOUND_LABEL_SE003);
+        Game::StopSound(SOUND_LABEL_BGMStage1);
+        Game::PlaySound(SOUND_LABEL_SEDefeat);
         Game::GetInstance()->ChangeScene(GAMEOVER);
         return;
+    }
+
+    for (size_t i = 0; i < m_MySceneObjects.size(); )
+    {
+        if (m_MySceneObjects[i] && m_MySceneObjects[i]->GetMarkedForDelete()==true)
+        {
+            Game::GetInstance()->DeleteObject(m_MySceneObjects[i]);
+            m_MySceneObjects.erase(m_MySceneObjects.begin() + i);
+        }
+        else
+        {
+            ++i;
+        }
     }
     GameLoopUIUpdate();
 }
 
 void Stage1Scene::InitStageData()
 {
-        Game::PlaySound(SOUND_LABEL_BGM001);
+        Game::PlaySound(SOUND_LABEL_BGMStage1);
       
         
         /*m_MySceneObjects.emplace_back(Game::GetInstance()->AddObject<Skybox>());*/
@@ -402,7 +415,7 @@ void Stage1Scene::GameLoopUIUpdate()
 
 void Stage1Scene::StopAllSE()
 {
-    Game::StopSound(SOUND_LABEL_SE000);
-    Game::StopSound(SOUND_LABEL_SE001);
+    Game::StopSound(SOUND_LABEL_SEWarning);
+    Game::StopSound(SOUND_LABEL_SEAlarm);
 }
 

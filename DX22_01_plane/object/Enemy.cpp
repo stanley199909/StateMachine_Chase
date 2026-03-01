@@ -6,6 +6,7 @@
 #include "EnemyChasingState.h"
 #include "EnemySearchState.h"
 #include "EnemyAttackState.h"
+#include "EnemyCrashedState.h"
 
 //=======================================
 // 初期化処理
@@ -43,6 +44,7 @@ void Enemy::Init()
 	m_states.push_back(new EnemySearchState(this));
 	m_states.push_back(new EnemyChasingState(this));
 	m_states.push_back(new EnemyAttackState(this));
+	m_states.push_back(new EnemyCrashedState(this));
 	//////////////////////////////	
 	// ステートマシン情報入力
 	//////////////////////////////

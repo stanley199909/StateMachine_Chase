@@ -39,7 +39,7 @@ void GameOverScene::Update()
 	// エンターキーを押してタイトルへ
 	if (Input::GetKeyTrigger(VK_RETURN))
 	{
-		Game::StopSound(SOUND_LABEL_SE003);
+		Game::StopSound(SOUND_LABEL_SEDefeat);
 		Game::GetInstance()->ChangeScene(TITLE);
 	}
 }
